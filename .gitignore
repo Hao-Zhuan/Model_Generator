@@ -1,0 +1,9 @@
+# Ignore models directory
+models/
+
+# Ignore all .pt and .onnx files in the current directory
+*.pt
+*.onnx
+
+# Ignore all .log in the current directory
+*.log
