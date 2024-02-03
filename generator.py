@@ -108,7 +108,7 @@ class Profiler:
         ort_session.run(None, {'input': torch.randn(*input_shape).numpy()})
         end_time = time.time()
 
-        print(f"Execution time with ONNX Runtime: {end_time - start_time} seconds")
+        logging.info(f"Execution time with ONNX Runtime: {end_time - start_time} seconds")
 
 if __name__ == '__main__':
     generate_cases('op_info/Conv.json', 'models')
