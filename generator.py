@@ -13,7 +13,14 @@ import torch
 import torch.nn as nn
 from torch.autograd import Variable
 
+import logging
+
+logging.basicConfig(filename='generator.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s', level=logging.INFO)
+
 def generate_cases(json_file, output_dir):
+
+    logging.info(f"Generating cases from {json_file}...")
+
     with open(json_file, 'r') as f:
         op_info = json.load(f)
 
@@ -49,6 +56,9 @@ def generate_cases(json_file, output_dir):
 
 
 def generate_model(op_name, shape, attr):
+
+    logging.info(f"Generating model for operation {op_name}...")
+
     op_class = getattr(nn, op_name)
 
     # Create the model
@@ -70,6 +80,9 @@ class ModelExporter:
         convert pt models to onnx
         verify with onnx
         """
+
+        logging.info(f"Exporting model to ONNX format at {filename}...")
+
         # Input data format is NCHW
         dummy_input = torch.randn(*input_shape)
         torch.onnx.export(model, dummy_input, filename)
@@ -83,6 +96,10 @@ class Profiler:
         """
         Profile the time
         """
+
+        logging.info(f"Running cases with ONNX Runtime for model at {filename}...")
+
+
         # Load the ONNX model
         ort_session = ort.InferenceSession(filename)
 
